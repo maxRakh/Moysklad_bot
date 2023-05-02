@@ -102,10 +102,13 @@ class StockSalesReport:
 
 def give_dates_ago(day_ago=None, curent_period=False, months_ago=0) -> tuple[str, str]:
     date_format = "%Y-%m-%d"
-    time_now = datetime.now(timezone.utc).astimezone()
-    if day_ago:
+    delta = timedelta(hours=3)
+    time_now = datetime.now(timezone.utc) + delta
+
+    if day_ago >= 0:
         time_day = (time_now - timedelta(days=day_ago)).strftime(date_format)
         moment_from = f"{time_day} 00:00:00"
+
     if day_ago == 0 or curent_period:
         moment_to = time_now.strftime("%Y-%m-%d %H:%M:%S")
     elif months_ago:
