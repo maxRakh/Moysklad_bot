@@ -29,3 +29,6 @@
 
 `token_tg = "tepegram_token"`
 `Получается у BotFather`
+
+`users = []`
+`внуттри telegram id юзеров, которым планируете предоставить доступ к боту`

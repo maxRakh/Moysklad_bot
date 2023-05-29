@@ -4,10 +4,9 @@ from aiogram import Bot, Dispatcher, types, executor
 from aiogram.dispatcher.filters import Text
 from aiogram.types import ReplyKeyboardMarkup
 
-from config import token_tg
-
 from keyboard import get_sale_menu_keyboard, get_stock_menu_keyboard
 from main import StockSalesReport, give_dates_ago
+from config import token_tg, users
 
 bot = Bot(token=token_tg)
 dp = Dispatcher(bot)
@@ -15,16 +14,22 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands='start')
 async def start(message: types.Message) -> None:
-    start_buttons = ['Остатки', "Продажи"]
-    keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(*start_buttons)
-    await message.answer("Привет! Чем помочь?", reply_markup=keyboard)
+    if message.from_user.id in users:
+        start_buttons = ['Остатки', "Продажи"]
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True)
+        keyboard.add(*start_buttons)
+        await message.answer("Привет! Чем помочь?", reply_markup=keyboard)
+    else:
+        await message.answer("Извините, но у вас нет доступа к боту.")
 
 
 @dp.message_handler(Text(equals='Остатки'))
 async def stock_menu(message: types.Message) -> None:
-    stock_menu_keyboard_1 = get_stock_menu_keyboard()
-    await message.answer("Какую выгрузку сделать?", reply_markup=stock_menu_keyboard_1)
+    if message.from_user.id in users:
+        stock_menu_keyboard_1 = get_stock_menu_keyboard()
+        await message.answer("Какую выгрузку сделать?", reply_markup=stock_menu_keyboard_1)
+    else:
+        await message.answer("Извините, но у вас нет доступа к боту.")
 
 
 @dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('stock_'))
@@ -49,8 +54,11 @@ async def inline_keyboard_stock_buttons(callback: types.CallbackQuery) -> None:
 
 @dp.message_handler(Text(equals='Продажи'))
 async def sale_menu(message:types.Message) -> None:
-    sale_menu_keyboard = get_sale_menu_keyboard()
-    await message.answer('Продажи за какой период выгрузить?', reply_markup=sale_menu_keyboard)
+    if message.from_user.id in users:
+        sale_menu_keyboard = get_sale_menu_keyboard()
+        await message.answer('Продажи за какой период выгрузить?', reply_markup=sale_menu_keyboard)
+    else:
+        await message.answer("Извините, но у вас нет доступа к боту.")
 
 
 @dp.callback_query_handler(lambda callback_query: callback_query.data.startswith('sales_'))
