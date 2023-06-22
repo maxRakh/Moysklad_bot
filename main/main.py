@@ -96,7 +96,7 @@ class StockSalesReport:
         for key, value in turnover_outcome.items():
             result += f"\n{key}:\n"
             for good in value:
-                result += f"{good['name']} - {good['outcome']} шт.\n"
+                result += f"{good['name']} - {good['outcome']} \n"
         return result
 
 
