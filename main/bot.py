@@ -39,16 +39,16 @@ async def inline_keyboard_stock_buttons(callback: types.CallbackQuery) -> None:
     cat_callbackdata = callback.data.split('_', 1)[1]
 
     if cat_callbackdata in [i for i in stock_dict.keys()] and cat_callbackdata != "Все остатки":
-        cat_str = f"{cat_callbackdata}: всего {sum(good['stock'] for good in stock_dict[cat_callbackdata])} шт.\n"
+        cat_str = f"{cat_callbackdata} | {sum(good['stock'] for good in stock_dict[cat_callbackdata])} \n"
         for good in stock_dict[cat_callbackdata]:
-            cat_str += f"  {good['name']}: остаток {good['stock']} шт., цена {good['price']} руб.\n"
+            cat_str += f"  {good['name']} {good['price']} THB - {good['stock']}\n"
         await callback.message.answer(cat_str)
 
     elif callback.data == "stock_all_stock_button":
         for cat, values in stock_dict.items():
-            cat_str = f"{cat}: всего {sum(good['stock'] for good in values)} шт.\n"
+            cat_str = f"{cat} | {sum(good['stock'] for good in values)}\n"
             for good in values:
-                cat_str += f"  {good['name']}: остаток {good['stock']} шт., цена {good['price']} руб.\n"
+                cat_str += f"  {good['name']} {good['price']} THB - {good['stock']}\n"
             await callback.message.answer(cat_str)
 
 
