@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from main import StockSalesReport
 
 
-def get_stock_menu_keyboard():
+def get_stock_menu_keyboard() -> InlineKeyboardMarkup:
     sr = StockSalesReport()
     stock_dict = sr.get_goods_dict()
     stock_menu_keyboard = InlineKeyboardMarkup()
@@ -14,7 +14,7 @@ def get_stock_menu_keyboard():
     return stock_menu_keyboard
 
 
-def get_sale_menu_keyboard():
+def get_sale_menu_keyboard() -> InlineKeyboardMarkup:
     sale_menu_keyboard = InlineKeyboardMarkup(row_width=2)
     sale_menu_keyboard.insert(InlineKeyboardButton(text="Сегодня", callback_data="sales_today"))
     sale_menu_keyboard.insert(InlineKeyboardButton(text="Вчера", callback_data="sales_yesterday"))
