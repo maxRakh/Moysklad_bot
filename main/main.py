@@ -8,7 +8,7 @@ from config import token_ms
 
 
 class StockSalesReport:
-    def __init__(self, filter_url="stockMode=nonEmpty", moment_from=None, moment_to=None):
+    def __init__(self, filter_url: str = "stockMode=nonEmpty", moment_from: str = None, moment_to: str = None) -> None:
         self.headers = {
             "Authorization": f"Bearer {token_ms}",
             "Content-Type": "application/json",
