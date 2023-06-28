@@ -12,17 +12,7 @@
 
 `git clone https://github.com/maxRakh/Moysklad_bot.git`
 
-2. Создайте виртуальное окружение и активируйте его
-
-`virtualenv venv`
-
-`source venv/bin/activate`
-
-2. Установите зависимости
-
-`pip install -r requirements.txt`
-
-3. Создайте в папке main файл config.p
+2. Создайте в папке main файл config.py
 В нем необходимо прописать следующие переменные
 
 `token_ms = "ваш_токен_от_МойСклад"`
@@ -33,3 +23,7 @@
 
 `users = []`
 `внуттри telegram id юзеров, которым планируете предоставить доступ к боту`
+
+3. Запустите docker контейнер (не забудьте предварительно установить docker)
+
+`sudo docker run --restart=always -d moysklad-bot`
