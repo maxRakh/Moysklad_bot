@@ -4,7 +4,7 @@ from datetime import timedelta, datetime, timezone
 
 import requests
 
-from config import token_ms
+from main.config import token_ms
 
 
 class StockSalesReport:
