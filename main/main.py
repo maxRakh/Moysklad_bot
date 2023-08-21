@@ -105,7 +105,10 @@ def give_dates_ago(day_ago=None, curent_period=False, months_ago=0) -> tuple[str
     delta = timedelta(hours=3)
     time_now = datetime.now(timezone.utc) + delta
 
-    if day_ago >= 0:
+    if day_ago is None and curent_period is False and months_ago == 0:
+        raise KeyError("Не выбран период времени для выгрузки")
+
+    if day_ago and day_ago >= 0:
         time_day = (time_now - timedelta(days=day_ago)).strftime(date_format)
         moment_from = f"{time_day} 00:00:00"
 
@@ -115,14 +118,15 @@ def give_dates_ago(day_ago=None, curent_period=False, months_ago=0) -> tuple[str
         cur_y = int(time_now.strftime('%Y'))
         cur_m = int(time_now.strftime('%m'))
         if cur_m - months_ago <= 0:
+            new_cur_m = 12 + cur_m - months_ago
             month_before = time_now.replace(year=cur_y - 1, month=12)
-            days_in_month = monthrange(cur_y - 1, cur_m - months_ago)[1]
-            moment_from = f"{month_before.strftime(date_format)} 00:00:00"
+            days_in_month = monthrange(cur_y - 1, new_cur_m)[1]
+            moment_from = f"{month_before.replace(day=1).strftime(date_format)} 00:00:00"
             moment_to = f"{month_before.replace(day=days_in_month).strftime(date_format)} 23:59:59"
         else:
             month_before = time_now.replace(month=cur_m - 1)
             days_in_month = monthrange(cur_y, cur_m)[1]
-            moment_from = f"{month_before.strftime(date_format)} 00:00:00"
+            moment_from = f"{month_before.replace(day=1).strftime(date_format)} 00:00:00"
             moment_to = f"{month_before.replace(day=days_in_month).strftime(date_format)} 23:59:59"
 
     elif day_ago > 0:
